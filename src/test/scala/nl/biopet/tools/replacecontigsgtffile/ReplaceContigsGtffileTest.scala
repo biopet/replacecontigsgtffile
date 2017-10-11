@@ -7,7 +7,7 @@ object ReplaceContigsGtffileTest extends BiopetTest {
   @Test
   def testNoArgs(): Unit = {
     intercept[IllegalArgumentException] {
-      ToolTemplate.main(Array())
+      ReplaceContigsGtffile.main(Array())
     }
   }
 }

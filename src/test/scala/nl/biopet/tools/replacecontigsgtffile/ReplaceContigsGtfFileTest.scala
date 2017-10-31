@@ -2,12 +2,12 @@ package nl.biopet.tools.replacecontigsgtffile
 
 import java.io.{File, PrintWriter}
 
-import nl.biopet.test.BiopetTest
+import nl.biopet.utils.test.tools.ToolTest
 import org.testng.annotations.Test
 
 import scala.io.Source
 
-class ReplaceContigsGtfFileTest extends BiopetTest {
+class ReplaceContigsGtfFileTest extends ToolTest[Args] {
   @Test
   def testNoArgs(): Unit = {
     intercept[IllegalArgumentException] {

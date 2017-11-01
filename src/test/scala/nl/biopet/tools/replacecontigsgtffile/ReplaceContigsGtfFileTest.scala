@@ -8,6 +8,7 @@ import org.testng.annotations.Test
 import scala.io.Source
 
 class ReplaceContigsGtfFileTest extends ToolTest[Args] {
+  def toolCommand: ReplaceContigsGtfFile.type = ReplaceContigsGtfFile
   @Test
   def testNoArgs(): Unit = {
     intercept[IllegalArgumentException] {

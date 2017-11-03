@@ -47,9 +47,9 @@ object ReplaceContigsGtfFile extends ToolCommand[Args] {
         val feature = Feature.fromLine(line)
 
         if (contigMap.contains(feature.contig))
-          writeLine(feature.copy(contig = cmdArgs.contigs(feature.contig)))
+          writeLine(feature.copy(contig = contigMap(feature.contig)))
         else if (!cmdArgs.caseSensitive && contigMap.contains(feature.contig.toLowerCase))
-          writeLine(feature.copy(contig = cmdArgs.contigs(feature.contig.toLowerCase)))
+          writeLine(feature.copy(contig = contigMap(feature.contig.toLowerCase)))
         else writeLine(feature)
       }
     }

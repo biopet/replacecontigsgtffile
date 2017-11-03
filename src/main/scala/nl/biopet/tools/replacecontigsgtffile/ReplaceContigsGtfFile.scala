@@ -16,8 +16,7 @@ object ReplaceContigsGtfFile extends ToolCommand[Args] {
   def main(args: Array[String]): Unit = {
     val cmdArgs = cmdArrayToArgs(args)
 
-    if (!cmdArgs.input.exists)
-      throw new IllegalStateException("Input file not found, file: " + cmdArgs.input)
+    require(cmdArgs.input.exists, s"Input file not found, file: ${cmdArgs.input}")
 
     logger.info("Start")
 

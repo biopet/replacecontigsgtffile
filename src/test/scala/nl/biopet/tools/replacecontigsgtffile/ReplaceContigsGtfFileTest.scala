@@ -81,8 +81,8 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     val output = File.createTempFile("output.", ".gtf")
     output.deleteOnExit()
 
-    intercept[IllegalStateException] {
+    intercept[IllegalArgumentException] {
       ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "-R", resourcePath("/fake_chrQ.fa")))
-    }
+    }.getMessage shouldBe s"requirement failed: Input file not found, file: ${input.getAbsolutePath}"
   }
 }

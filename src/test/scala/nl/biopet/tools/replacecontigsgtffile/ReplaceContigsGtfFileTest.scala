@@ -27,7 +27,7 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     inputWriter.println("1\tbla\tbla\t1\t2\t.\t.\t.")
     inputWriter.close()
 
-    ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath))
+    ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "-R", resourcePath("/fake_chrQ.fa")))
 
     val reader = Source.fromFile(output)
     reader.getLines().next() shouldBe "1\tbla\tbla\t1\t2\t.\t.\t.\t"
@@ -46,7 +46,7 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     inputWriter.close()
 
     ReplaceContigsGtfFile.main(
-      Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "--contig", "1=chr1"))
+      Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "--contig", "1=chr1", "-R", resourcePath("/fake_chrQ.fa")))
 
     val reader = Source.fromFile(output)
     val line = reader.getLines().next()
@@ -62,7 +62,7 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     output.deleteOnExit()
 
     intercept[IllegalStateException] {
-      ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath))
+      ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "-R", resourcePath("/fake_chrQ.fa")))
     }
 
   }

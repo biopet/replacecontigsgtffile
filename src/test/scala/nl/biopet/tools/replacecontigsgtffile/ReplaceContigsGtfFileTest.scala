@@ -27,7 +27,7 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     inputWriter.println("1\tbla\tbla\t1\t2\t.\t.\t.")
     inputWriter.close()
 
-    ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath))
+    ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "-R", resourcePath("/fake_chrQ.fa")))
 
     val reader = Source.fromFile(output)
     reader.getLines().next() shouldBe "1\tbla\tbla\t1\t2\t.\t.\t.\t"
@@ -46,11 +46,31 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     inputWriter.close()
 
     ReplaceContigsGtfFile.main(
-      Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "--contig", "1=chr1"))
+      Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "--contig", "1=chr1", "-R", resourcePath("/fake_chrQ.fa")))
 
     val reader = Source.fromFile(output)
     val line = reader.getLines().next()
     line shouldBe "chr1\tbla\tbla\t1\t2\t.\t.\t.\t"
+    reader.close()
+  }
+
+  @Test
+  def testReplaceCaps(): Unit = {
+    val input = File.createTempFile("input.", ".gtf")
+    input.deleteOnExit()
+    val output = File.createTempFile("output.", ".gtf")
+    output.deleteOnExit()
+
+    val inputWriter = new PrintWriter(input)
+    inputWriter.println("CHRQ\tbla\tbla\t1\t2\t.\t.\t.")
+    inputWriter.close()
+
+    ReplaceContigsGtfFile.main(
+      Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "-R", resourcePath("/fake_chrQ.fa")))
+
+    val reader = Source.fromFile(output)
+    val line = reader.getLines().next()
+    line shouldBe "chrQ\tbla\tbla\t1\t2\t.\t.\t.\t"
     reader.close()
   }
 
@@ -61,9 +81,8 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     val output = File.createTempFile("output.", ".gtf")
     output.deleteOnExit()
 
-    intercept[IllegalStateException] {
-      ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath))
-    }
-
+    intercept[IllegalArgumentException] {
+      ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "-R", resourcePath("/fake_chrQ.fa")))
+    }.getMessage shouldBe s"requirement failed: Input file not found, file: ${input.getAbsolutePath}"
   }
 }

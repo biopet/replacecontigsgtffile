@@ -6,14 +6,17 @@ import nl.biopet.utils.ngs.fasta
 import nl.biopet.utils.tool.AbstractOptParser
 
 class ArgsParser(cmdName: String) extends AbstractOptParser[Args](cmdName) {
-  opt[File]('I', "input") required () unbounded () valueName "<file>" action { (x, c) =>
-    c.copy(input = x)
+  opt[File]('I', "input") required () unbounded () valueName "<file>" action {
+    (x, c) =>
+      c.copy(input = x)
   } text "Input GTF file"
-  opt[File]('o', "output") required () unbounded () valueName "<file>" action { (x, c) =>
-    c.copy(output = x)
+  opt[File]('o', "output") required () unbounded () valueName "<file>" action {
+    (x, c) =>
+      c.copy(output = x)
   } text "Output GTF file"
-  opt[File]('R', "referenceFile") required () unbounded () valueName "<file>" action { (x, c) =>
-    c.copy(referenceFile = x)
+  opt[File]('R', "referenceFile") required () unbounded () valueName "<file>" action {
+    (x, c) =>
+      c.copy(referenceFile = x)
   } text "Reference fasta file"
   opt[Map[String, String]]("contig") unbounded () action { (x, c) =>
     c.copy(contigs = c.contigs ++ x)

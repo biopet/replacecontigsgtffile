@@ -16,18 +16,22 @@ object ReplaceContigsGtfFile extends ToolCommand[Args] {
   def main(args: Array[String]): Unit = {
     val cmdArgs = cmdArrayToArgs(args)
 
-    require(cmdArgs.input.exists, s"Input file not found, file: ${cmdArgs.input}")
+    require(cmdArgs.input.exists,
+            s"Input file not found, file: ${cmdArgs.input}")
 
     logger.info("Start")
 
     val dict = fasta.getDictFromFasta(cmdArgs.referenceFile)
 
     val contigMap = {
-      val caseSensitive = cmdArgs.contigMapFile.map(fasta.readContigMapReverse).getOrElse(Map()) ++ cmdArgs.contigs
+      val caseSensitive = cmdArgs.contigMapFile
+        .map(fasta.readContigMapReverse)
+        .getOrElse(Map()) ++ cmdArgs.contigs
       if (cmdArgs.caseSensitive) caseSensitive
       else {
         caseSensitive.map(x => x._1.toLowerCase -> x._2) ++ caseSensitive ++
-          dict.getSequences.filter(x => x.getSequenceName.toLowerCase !=  x.getSequenceName)
+          dict.getSequences
+            .filter(x => x.getSequenceName.toLowerCase != x.getSequenceName)
             .map(x => x.getSequenceName.toLowerCase -> x.getSequenceName)
       }
     }
@@ -47,8 +51,10 @@ object ReplaceContigsGtfFile extends ToolCommand[Args] {
 
         if (contigMap.contains(feature.contig))
           writeLine(feature.copy(contig = contigMap(feature.contig)))
-        else if (!cmdArgs.caseSensitive && contigMap.contains(feature.contig.toLowerCase))
-          writeLine(feature.copy(contig = contigMap(feature.contig.toLowerCase)))
+        else if (!cmdArgs.caseSensitive && contigMap.contains(
+                   feature.contig.toLowerCase))
+          writeLine(
+            feature.copy(contig = contigMap(feature.contig.toLowerCase)))
         else writeLine(feature)
       }
     }

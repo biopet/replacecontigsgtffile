@@ -1,3 +1,24 @@
+/*
+ * Copyright (c) 2017 Biopet
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package nl.biopet.tools.replacecontigsgtffile
 
 import java.io.{File, PrintWriter}
@@ -27,7 +48,13 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     inputWriter.println("1\tbla\tbla\t1\t2\t.\t.\t.")
     inputWriter.close()
 
-    ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "-R", resourcePath("/fake_chrQ.fa")))
+    ReplaceContigsGtfFile.main(
+      Array("-I",
+            input.getAbsolutePath,
+            "-o",
+            output.getAbsolutePath,
+            "-R",
+            resourcePath("/fake_chrQ.fa")))
 
     val reader = Source.fromFile(output)
     reader.getLines().next() shouldBe "1\tbla\tbla\t1\t2\t.\t.\t.\t"
@@ -46,7 +73,14 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     inputWriter.close()
 
     ReplaceContigsGtfFile.main(
-      Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "--contig", "1=chr1", "-R", resourcePath("/fake_chrQ.fa")))
+      Array("-I",
+            input.getAbsolutePath,
+            "-o",
+            output.getAbsolutePath,
+            "--contig",
+            "1=chr1",
+            "-R",
+            resourcePath("/fake_chrQ.fa")))
 
     val reader = Source.fromFile(output)
     val line = reader.getLines().next()
@@ -66,7 +100,12 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     inputWriter.close()
 
     ReplaceContigsGtfFile.main(
-      Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "-R", resourcePath("/fake_chrQ.fa")))
+      Array("-I",
+            input.getAbsolutePath,
+            "-o",
+            output.getAbsolutePath,
+            "-R",
+            resourcePath("/fake_chrQ.fa")))
 
     val reader = Source.fromFile(output)
     val line = reader.getLines().next()
@@ -82,7 +121,13 @@ class ReplaceContigsGtfFileTest extends ToolTest[Args] {
     output.deleteOnExit()
 
     intercept[IllegalArgumentException] {
-      ReplaceContigsGtfFile.main(Array("-I", input.getAbsolutePath, "-o", output.getAbsolutePath, "-R", resourcePath("/fake_chrQ.fa")))
+      ReplaceContigsGtfFile.main(
+        Array("-I",
+              input.getAbsolutePath,
+              "-o",
+              output.getAbsolutePath,
+              "-R",
+              resourcePath("/fake_chrQ.fa")))
     }.getMessage shouldBe s"requirement failed: Input file not found, file: ${input.getAbsolutePath}"
   }
 }
